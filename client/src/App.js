@@ -1,45 +1,22 @@
-//class components
-import React, { Component } from 'react';
-import axios from 'axios';
-
+import React, { Component } from "react";
+import { BrowserRouter, Route } from "react-router-dom";
+import CreatePost from "./components/CreatePost";
+import EditPost from "./components/EditPost";
+import Home from "./components/Home";
+import NavBar from "./components/NavBar";
+import PostDetails from "./components/PostDetails";
 export default class App extends Component {
-
-constructor(props){
-  super(props);
-
-  this.state={
-    post:[]
-  };
-}
-
-
-//components and subcomp render after
-componentDidMount(){
-  this.retrivePosts();
-}
-
-retrivePosts(){
-  axios.get("http://localhost:8000/post").then(res =>{
-    if(res.data.sucess){
-      this.setState({
-        post:res.data.existingPost
-      });
-
-      console.log(this.state.post)
-    }
-  });
-}
-  render(){
-    return(
-      <div>
-          {this.state.post.map(post =>{
-            <div>
-              <p>{post.topic}</p>
-              <p>{post.decription}</p>
-            </div>
-          })}
-
-      </div>
-    )
+  render() {
+    return (
+      <BrowserRouter>
+        <div className="container">
+          <NavBar />
+          <Route path="/" exact component={Home}></Route>
+          <Route path="/add" exact component={CreatePost}></Route>
+          <Route path="/edit/:id" exact component={EditPost}></Route>
+          <Route path="/post/:id" exact component={PostDetails}></Route>
+        </div>
+      </BrowserRouter>
+    );
   }
 }
